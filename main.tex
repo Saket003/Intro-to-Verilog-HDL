@@ -1,0 +1,146 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{listings}
+\usepackage{color}
+
+\title{Verilog HDL}
+\author{Saket Kandoi}
+\date{March 2023}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Verilog,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+%Reference - https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+%https://mirror.niser.ac.in/ctan/macros/latex/contrib/listings/listings-devel.pdf
+
+\begin{document}
+
+\maketitle
+
+\section{Terminology}
+\begin{itemize}
+    \item HDL: Hardware Description Language 
+    \item Behavior Modelling: Output in relation to inputs, only functionality
+    \item Structural Modelling: Functionality and structure of the circuit
+    \item RTL Synthesis: Translation then Optimization to Gate-level
+\end{itemize}
+
+\section{Syntax}
+\begin{itemize}
+    \item Case-sensitive, keywords are lower-case
+    \item Whitespace insensitive
+
+\item Module Structure
+ \begin{lstlisting}
+ \\This is a comment
+ \*
+ This too
+ *\
+module module_name(port_list);
+    <port declarations>
+    <data type declarations>
+    <circuit functionality>
+    <timing specifications>
+endmodule
+\end{lstlisting}
+
+\item Port Declarations
+\begin{lstlisting}
+    input [7:0] ina,inb;
+    input clk,aclr;
+    output [15:0] out;
+    //inout for bidirectional ports
+    //Buses [n:0] have size: n+1-Bit
+\end{lstlisting}
+\begin{lstlisting}
+    //Alternate Method
+    module mult_acc
+    (
+    input [7:0] ina,inb,
+    input clk,aclr,
+    output [15:0] out
+    );
+    ...
+    endmodule
+\end{lstlisting}
+
+\item Data Type Declarations\\
+Two Types - 
+    \begin{itemize}
+        \item Net: Activity flows
+        \item Variable: Element to store data temp
+    \end{itemize}
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ wire & Node or Connection  \\ 
+ tri & Node three-state  \\ 
+ supply0 and supply1 & Logic Values  \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}
+    //<data_type> [MSB:LSB] <signal name>;
+    //<data_type> [LSB:MSB] <signal name>;
+    wire [7:0] out;
+    tri enable;
+\end{lstlisting}
+
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ reg & unsigned var of any bit size  \\ 
+ reg signed & signed  \\ 
+ integer & signed 32-bit var  \\ 
+ real, time, realtime & Only for sims \\
+ \hline
+\end{tabular}
+\end{center}
+Can be assigned only within a procedure, a task, or a function
+\begin{lstlisting}
+    //reg [MSB:LSB] <signal name>;
+    //reg [LSB:MSB] <signal name>;
+    reg[7:0] out;
+    integer count;
+\end{lstlisting}
+
+\item Instantiation Format
+\begin{lstlisting}
+    <component_name> #<delay> <instance_name> (port_list);
+\end{lstlisting}
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ component name & Module Name\\
+ delay & Optional delay through component\\
+ instance name & Unique name applied to instance\\
+ port list & List of signals to connect\\
+ \hline
+\end{tabular}
+\end{center}
+
+
+
+\end{itemize}
+
+\end{document}
